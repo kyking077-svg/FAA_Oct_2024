@@ -258,7 +258,7 @@ background: rgb(189, 122, 50);
 <section id="crows-and-crowds" class="level2">
 <h2 class="anchored" data-anchor-id="crows-and-crowds">Crows and Crowds</h2>
 <p><a href="https://www.insuremytrip.com/travel-advice/travel-planning/best-worst-time-to-fly-report/">InsureMyTrip analyzed TSA data</a> from 2023 to 2026, and found that, on average, the busiest day to fly is Sunday, and the least busy day is Tuesday. How does that yearly average compare to October?</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="1ca61515" class="cell" data-execution_count="1">
+<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="5c321ef6" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># busiest days</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -294,11 +294,11 @@ background: rgb(189, 122, 50);
 </div>
 </div>
 </div></div>
-<div id="9b2ce6d0" class="cell markdown">
+<div id="c1f0961d" class="cell markdown">
 <p>With 103,170 flights over the course of October 2024, Thursday is actually the busiest day to fly in October! The slowest day to fly in October is Saturday, which had 69,574 flights in October 2024. Sunday, which is typically seen as the busiest day to fly, only had 84,572 flights in October 2024, making it the second slowest day of the month. Tuesday, which is typically seen as the slowest day to fly, had 92,999 flights in October 2024, making it the third busiest day of the month. This is important to keep in mind when traveling in October, as it directly contradicts the ‘common knowledge’ of flight booking.</p>
-<p>It is important to keep in mind, however, that the time of month can also change how busy the airports are. In other months, one must consider holidays, long weekends, and</p>
+<p>It is important to keep in mind, however, that the time of month can also change how busy the airports are. In other months, one must consider holidays, long weekends, or other popular travel times.</p>
 </div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div id="602d4732" class="cell" data-execution_count="2">
+<div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div id="a30f4558" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#making a really cool calendar visual</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -313,36 +313,44 @@ background: rgb(189, 122, 50);
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#calendar for october 2024</span></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>cal <span class="op">=</span> calendar.monthcalendar(<span class="dv">2024</span>, <span class="dv">10</span>)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>calendar_data <span class="op">=</span> np.zeros((<span class="bu">len</span>(cal), <span class="dv">7</span>))</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> week_idx, week <span class="kw">in</span> <span class="bu">enumerate</span>(cal):</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> day_idx, day <span class="kw">in</span> <span class="bu">enumerate</span>(week):</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> day <span class="op">!=</span> <span class="dv">0</span>:</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>            flight_count <span class="op">=</span> month_df.loc[</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>                month_df[<span class="st">'FlightDate'</span>].dt.day <span class="op">==</span> day,</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>                <span class="st">'Flight_Count'</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>            ]</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>            calendar_data[week_idx, day_idx] <span class="op">=</span> (</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>                flight_count.iloc[<span class="dv">0</span>] <span class="cf">if</span> <span class="kw">not</span> flight_count.empty <span class="cf">else</span> <span class="dv">0</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>            )</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>sns.heatmap(</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    calendar_data,</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    annot<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">=</span><span class="st">'.0f'</span>,</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">'rocket'</span>,</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    linewidths<span class="op">=</span><span class="dv">3</span>,</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    linecolor<span class="op">=</span><span class="st">'white'</span>,</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    cbar_kws<span class="op">=</span>{<span class="st">'label'</span>: <span class="st">'Number of Flights'</span>},</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    xticklabels<span class="op">=</span>[<span class="st">'Mon'</span>, <span class="st">'Tue'</span>, <span class="st">'Wed'</span>, <span class="st">'Thu'</span>, <span class="st">'Fri'</span>, <span class="st">'Sat'</span>, <span class="st">'Sun'</span>],</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    yticklabels<span class="op">=</span><span class="va">False</span></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Daily Flights - October 2024'</span>, fontsize<span class="op">=</span><span class="dv">16</span>)</span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">''</span>)</span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>calendar_data <span class="op">=</span> np.full((<span class="bu">len</span>(cal), <span class="dv">7</span>), np.nan)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>annotations <span class="op">=</span> np.full((<span class="bu">len</span>(cal), <span class="dv">7</span>), <span class="st">''</span>, dtype<span class="op">=</span><span class="bu">object</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> week_idx, week <span class="kw">in</span> <span class="bu">enumerate</span>(cal):</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> day_idx, day <span class="kw">in</span> <span class="bu">enumerate</span>(week):</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> day <span class="op">!=</span> <span class="dv">0</span>:</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>            flight_count <span class="op">=</span> month_df.loc[</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>                month_df[<span class="st">'FlightDate'</span>].dt.day <span class="op">==</span> day,</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>                <span class="st">'Flight_Count'</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>            ]</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>            count <span class="op">=</span> flight_count.iloc[<span class="dv">0</span>] <span class="cf">if</span> <span class="kw">not</span> flight_count.empty <span class="cf">else</span> <span class="dv">0</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>            calendar_data[week_idx, day_idx] <span class="op">=</span> count</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>            <span class="co"># date, then number of flights</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>            annotations[week_idx, day_idx] <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>day<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>count<span class="sc">:,.0f}</span><span class="ss">"</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>sns.heatmap(</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    calendar_data,</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    annot<span class="op">=</span>annotations,</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">=</span><span class="st">''</span>,</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">'rocket_r'</span>,</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    linewidths<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    linecolor<span class="op">=</span><span class="st">'white'</span>,</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    cbar_kws<span class="op">=</span>{<span class="st">'label'</span>: <span class="st">'Number of Flights'</span>},</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    xticklabels<span class="op">=</span>[<span class="st">'Mon'</span>, <span class="st">'Tue'</span>, <span class="st">'Wed'</span>, <span class="st">'Thu'</span>, <span class="st">'Fri'</span>, <span class="st">'Sat'</span>, <span class="st">'Sun'</span>],</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    yticklabels<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    annot_kws<span class="op">=</span>{<span class="st">'fontsize'</span>: <span class="dv">11</span>}</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Daily Flights - October 2024'</span>, fontsize<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">''</span>)</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>Text(138.66666666666666, 0.5, '')</code></pre>
 </div>
@@ -354,6 +362,9 @@ background: rgb(189, 122, 50);
 </div>
 </div>
 </div></div>
+<div id="e92995de" class="cell markdown">
+<p>In October 2024, for example, the last week of the month saw significantly fewer flights across all days. In addition, October 31st, the last day of the month, had the second fewest flights of the entire month! This decline in flights is likely because of Halloween, a fairly popular holiday.</p>
+</div>
 </section>
      </main>
 <!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">

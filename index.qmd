@@ -87,8 +87,6 @@ for week_idx, week in enumerate(cal):
             # date, then number of flights
             annotations[week_idx, day_idx] = f"{day}\n{count:,.0f}"
             
-#remove days that are not part of the month
-annotations[week_idx, day_idx] = f"{day}\n{count:,.0f}"
 
 plt.figure(figsize=(12, 5))
 
