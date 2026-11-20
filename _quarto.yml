@@ -2,6 +2,15 @@ project:
   type: manuscript
   output-dir: docs
   execute-dir: project
+  resources:
+    - data\kylie_king_kk1543_hw4_problem_01_result.csv
+    - data\kylie_king_kk1543_hw4_problem_02_result.csv
+    - data\kylie_king_kk1543_hw4_problem_03_result.csv
+    - data\kylie_king_kk1543_hw4_problem_04_result.csv
+    - data\kylie_king_kk1543_hw4_problem_05_result.csv
+    - data\kylie_king_kk1543_hw4_problem_6a_result.csv
+    - data\kylie_king_kk1543_hw4_problem_6b_result.csv
+    - data\kylie_king_kk1543_hw4_problem_7_result.csv
 
 manuscript:
   article: index.qmd
@@ -17,7 +26,7 @@ format:
   # pdf: default
 
 execute:
-  freeze: true
+  freeze: false
 
 
 
