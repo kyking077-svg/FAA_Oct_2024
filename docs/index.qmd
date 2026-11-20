@@ -14,7 +14,7 @@ date-format: long
 ## Traveling in October
 October is considered a 'shoulder season' in most vacation destinations. It is situated between the summer and winter vacation seasons, perfectly in the middle of the back-to-school rush. For most families and students, October is not an ideal time to be traveling. For others, October is the perfect time to secure discounted hotels or visit popular destinations with less crowds. Whether inviting or inconvenient, what does air travel look like during this shoulder season month?
 
-To answer this question, we looked at United States flight records from October 2024. The Department of Transportation provides Airline On-Time Performance datasets through the [TransStats portal](https://www.transtats.bts.gov/). By creating and querying a database for flights in October 2024, we are able to evaluate the busiest time of October to travel, the risks of flight cancellation, and the best airlines to take in October.
+To answer this question, we looked at United States flight records from October 2024. The Department of Transportation provides Airline On-Time Performance datasets through the [TranStats portal](https://www.transtats.bts.gov/). By creating and querying a database for flights in October 2024, we evaluate the busiest time of October to travel, the most reliable airlines to take in October, and the risks of flight cancellation.
 
 ## Avoiding the Crowds
 [InsureMyTrip analyzed TSA data](https://www.insuremytrip.com/travel-advice/travel-planning/best-worst-time-to-fly-report/) from 2023 to 2026, and found that, on average, the busiest day to fly is Sunday, and the least busy day is Tuesday. How does that yearly average compare to October?
@@ -158,7 +158,7 @@ max_delay_df = max_delay_df.rename(columns={
     'Max_Departure_Delay': 'Longest Departure \nDelay (Minutes)',
 })
 
-fig, ax = plt.subplots()
+fig, ax = plt.subplots( dpi=200)
 ax.axis('off')
 
 table = ax.table(
@@ -226,7 +226,7 @@ airline_airport_df = airline_airport_df.rename(columns={
 
 
 
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(dpi=200)
 ax.axis('off')
 
 table = ax.table(
@@ -398,3 +398,9 @@ If travelers are prioritizing flights with minimal delays, they may want to cons
 
 Most travelers will not have to worry about canceled flights in October. In October 2024, only 1.021% of flights were canceled, which is lower than the yearly average of 1.41%. However, weather is the most common reason for canceled flights in October, so travelers should keep an eye on severe storms, tornadoes, hurricanes, and early snow in the weeks before their flight.
 
+Enjoy the autumn leaves, cool weather, and fewer crowds with a lovely October vacation!
+
+> This project was completed for DSAN 6300: Database Systems and SQL in the Georgetown University MS in Data Science & Analytics (DSAN) program. The data for this project was loaded into a MySQL database using an AWS EC2 instance. The data was then queried with SQL to produce the displayed data, and assembled into a narrative format.
+
+
+> The data for this project was the "Airline On-Time Performance Data" dataset for October 2024, collected by the Office of Airline Information, Bureau of Transportation Statistics (BTS), hosted on the TranStats data portal, and retrieved at <https://www.transtats.bts.gov/DatabaseInfo.asp?QO_VQ=EFD&QO_fu146_anzr=b0-gvzr&QO_anzr=Nv4yv0r%20b0-gvzr%20cr4s14zn0pr%20Qn6n&Yv0x=D>
