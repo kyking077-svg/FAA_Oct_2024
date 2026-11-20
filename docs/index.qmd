@@ -5,8 +5,10 @@ authors:
     affiliation: Georgetown University, Data Science and Analytics (DSAN)
     roles: writing
     corresponding: true
-title-block-banner: "#d66910"
+title-block-banner: "#c77d41"
 title-block-banner-color: "black"
+date: 2026-11-20
+date-format: long
 ---
 
 ## Traveling in October
@@ -16,7 +18,6 @@ To answer this question, we looked at United States flight records from October 
 
 ## Avoiding the Crowds
 [InsureMyTrip analyzed TSA data](https://www.insuremytrip.com/travel-advice/travel-planning/best-worst-time-to-fly-report/) from 2023 to 2026, and found that, on average, the busiest day to fly is Sunday, and the least busy day is Tuesday. How does that yearly average compare to October?
-
 
 ```{python}
 # busiest days
@@ -116,14 +117,164 @@ plt.show()
 
 When traveling in October, keep these findings in mind:
 
-- Thursday is the busiest day to fly, and Saturday is the least busy
-- The last week of the month is less busy than other weeks
-- Halloween is one of the least busy days of the month to fly
+- Thursday is the busiest day to fly, and Saturday is the least busy.
+- The last week of the month is less busy than other weeks.
+- Halloween is one of the least busy days of the month to fly.
+
+
+## Most Reliable Airlines
+
+[The Points Guy](https://thepointsguy.com/airline/best-us-airlines-2026) created a report on the best US airlines in 2026. The report found that Delta Air Lines was the best, as it scored high on on-time performance, few involuntary bumps, lounges, and customer experience. The full rankings were:
+
+1) Delta Air Lines
+2) United Airlines
+3) Southwest Airlines
+4) Alaska Air Group
+5) American Airlines
+6) JetBlue
+7) Allegiant Air
+8) Frontier Airlines
+
+The Points Guy report is very thorough, with multiple variables such as affordability, cabin features, loyalty programs, and destination options. However, it only includes the top 8 airlines of the 15 that regularly fly domestically in the US. When looking at all 15 airlines and their on-time performance, what are the most reliable airlines in October 2024?
+
+
+```{python}
+# airline with longest delay
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from plottable import Table
+
+max_delay_df = pd.read_csv("data/kylie_king_kk1543_hw4_problem_01_result.csv")
+max_delay_df.index = range(1, len(max_delay_df) + 1)
+max_delay_df.index.name = "Rank"
+
+#simplify airline names
+max_delay_df["Airline_Name"] = max_delay_df["Airline_Name"].str.split(":").str[0].str.strip()
+
+#changing names for display
+max_delay_df = max_delay_df.rename(columns={
+    'Airline_Name': 'Airline Name',
+    'Max_Departure_Delay': 'Longest Departure \nDelay (Minutes)',
+})
+
+fig, ax = plt.subplots()
+ax.axis('off')
+
+table = ax.table(
+    cellText=max_delay_df.values,
+    colLabels=max_delay_df.columns,
+    rowLabels=max_delay_df.index,
+    loc='center',
+    cellLoc='center'
+)
+
+for (row, col), cell in table.get_celld().items():
+    if row == 0:
+        # Header
+        cell.set_facecolor('#f4a666')
+        cell.set_text_props(color='black', weight='bold'),
+        cell.set_height(0.1)
+    elif row % 2 == 0:
+        cell.set_facecolor('#f1d7c2')
+    else:
+        cell.set_facecolor('white')
+
+table.auto_set_font_size(False)
+table.set_fontsize(10)
+table.scale(1.2, 1.5)
+
+plt.show()
+
+```
+
+The airline with the longest departure delay in all of October 2024 was PSA Airlines Inc., with a 2711 minute departure delay, about 45 hours. By contrast, Southwest Airlines' longest departure delay was 509 minutes, or roughly 8.5 hours. Unfortunately, this is not informative about the reliability of the airlines. It is more of an evaluation of the extreme circumstances that each airline faced in October 2024. 
+
+To get a clearer picture, we instead look at each airline's longest average delay, and what airports those average delays occur at. At all other airports, each airline will have a lower average departure delay. This allows travelers to evaluate which airline to select based on their airport, while also understanding the longest average delay to expect from an airline. 
+
+```{python}
+# airports and airlines
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from plottable import Table
+import textwrap
+
+airline_airport_df = pd.read_csv("data/kylie_king_kk1543_hw4_problem_05_result.csv")
+airline_airport_df = airline_airport_df.sort_values(by="Avg_Departure_Delay", ascending=True)
+#sort and rank
+airline_airport_df.index = range(1, len(airline_airport_df) + 1)
+airline_airport_df.index.name = "Rank"
+#round departure delays
+airline_airport_df["Avg_Departure_Delay"] = airline_airport_df["Avg_Departure_Delay"].round(2)
+# simplify airline names
+airline_airport_df["Airline_Name"] = airline_airport_df["Airline_Name"].str.split(":").str[0].str.strip()
+#and airport names
+airline_airport_df["Airport_Name"] = airline_airport_df["Airport_Name"].str.split(":").str[1].str.strip()
+
+#wrapping text
+airline_airport_df["Airport_Name"] = airline_airport_df["Airport_Name"].apply(
+    lambda x: "\n".join(textwrap.wrap(str(x), width=25))
+)
+
+#changing names for display
+airline_airport_df = airline_airport_df.rename(columns={
+    'Airline_Name': 'Airline Name',
+    'Avg_Departure_Delay': 'Average Departure \nDelay (Minutes)',
+    'Airport_Name': 'Airport With Longest \nAverage Delay',
+})
+
+
+
+fig, ax = plt.subplots()
+ax.axis('off')
+
+table = ax.table(
+    cellText=airline_airport_df.values,
+    colLabels=airline_airport_df.columns,
+    rowLabels=airline_airport_df.index,
+    loc='center',
+    cellLoc='center'
+)
+
+for (row, col), cell in table.get_celld().items():
+    if row == 0:
+        # Header
+        cell.set_facecolor('#f4a666')
+        cell.set_text_props(color='black', weight='bold'),
+        cell.set_height(0.1)
+    elif row % 2 == 0:
+        cell.set_facecolor('#f1d7c2')
+        cell.set_height(0.1)
+    else:
+        cell.set_facecolor('white')
+        cell.set_height(0.1)
+
+table.auto_set_font_size(False)
+table.set_fontsize(10)
+table.scale(1.2, 1.5)
+
+plt.show()
+
+```
+
+Once again, Southwest Airlines is at the top of the list. Their longest average delay in October 2024 was 20.19 minutes out of San Diego International Airport. Flying out of any other airport, travelers can expect a lower average departure delay. Considering that their maximum departure delay in October 2024 was also the shortest of all the airlines, this suggests that Southwest is generally reliable, and may resolve extreme situations faster than other airlines.
+
+Delta Air Lines, by comparison, has an average departure delay of 41.97 minutes out of Juneau International Airport. While Delta customers can expect shorter average delays out of all other airports, this is twice the length of Southwest's longest average delay. In addition, Delta's longest departure delay in all of October 2024 was 1190 minutes, or 19.8 hours, which is more than double Southwest Airlines' longest delay of 8.5 hours. This suggests that, while Delta may have the amenities described in The Points Guy's Best Airlines report, their on-time performance is actually lower than other airlines like Southwest, at least in October 2024. 
+
+At the bottom of the list, Allegiant Air has the longest average departure delay, with 176.78 minutes out of Santa Maria Public/Capt. G. Allan Hancock Field Airport. Allegiant Air is the only airline that flies out of the Santa Maria airport, and Santa Maria actually has the longest average delay of all airports in October 2024, with the same 176.78 minutes, or 2.93 hour, average delay.
+
+While on-time performance is not the most important part of air travel, it is worth considering alongside other preferences like amenities and loyalty programs when selecting an airline.
+
+When traveling in October, keep these findings in mind:
+
+- Southwest Airlines had the best on-time performance data in 2024, whereas Delta Air Lines, a popular airline, was in the middle of the ranking.
+- Santa Maria Public/Capt. G. Allan Hancock Field Airport and the Allegiance Air airline have the longest average delays in October 2024, at 176.78 minutes, or 2.93 hours.
 
 
 ## Cancellation Risks
 
-On any trip, a cancellation could ruin the entire vacation. The webstie [DelayGuard](https://www.delayguard.ai/cancellation-rates) used the exact same Bureau of Transportation Statistics On-Time Performance dataset, looking across the full years 2024-2025. They found that 1.41% of flights in that time period were canceled. How does that average compare to just October?
+On any trip, a cancellation could ruin the entire vacation. The website [DelayGuard](https://www.delayguard.ai/cancellation-rates) used the exact same Bureau of Transportation Statistics On-Time Performance dataset, looking across the full years 2024-2025. They found that 1.41% of flights in that time period were canceled. How does that average compare to just October?
 
 ```{python}
 #pie chart of cancellations
@@ -153,9 +304,9 @@ plt.show()
 
 ```
 
-Thankfully, October 2024 had fewer flight cancellations than the average for the rest of the year! With only 1.021% of flights cancelled, a bit less than the 1.41% average, October may be a slightly more reliable time to fly than expected!
+October 2024 had fewer flight cancellations than the average for the rest of the year! With only 1.021% of flights cancelled, a bit less than the 1.41% average, October may be a slightly more reliable time to fly than expected.
 
-It is important to know what exactly causes these cancellations though, so that travelers can plan ahead and anticipate possible changes. At the 184 airports that experienced cancellations in October 2024, "Weather" was the most frequent cancellation reason by far. In the following map, "Weather" was reported as the most frequent cancellation reason for airports in 43 states, while airports in 3 states most frequencly cited "Carrier" (issues within the airline), 2 states most frequencly cited "National Air System" (issues like air traffic or airport operations), and 2 states saw no cancellations in October 2024.
+It is important to know what exactly causes these cancellations though, so that travelers can plan ahead and anticipate possible changes. At the 184 airports that experienced cancellations in October 2024, "Weather" was the most frequent cancellation reason by far. In the following map, "Weather" was reported as the most frequent cancellation reason for airports in 43 states, while airports in 3 states most frequently cited "Carrier" (issues within the airline), 2 states most frequently cited "National Air System" (issues like air traffic or airport operations), and 2 states (Kansas and Mississippi) saw no cancellations in October 2024.
 
 ```{python}
 # cancellation reasons by state
@@ -220,7 +371,7 @@ fig.update_layout(
         title_text=''
     ),
     title=dict(
-        text='<b>Most Frequent Flight Cancellation Reason by State</b>',
+        text='<b>Most Frequent Flight Cancellation Reason by State: October 2024</b>',
         x=0.5,
         xanchor='center',
         y=0.95,
@@ -236,6 +387,14 @@ fig.show(config={'staticPlot': True, 'responsive': True})
 
 When traveling in October, keep these findings in mind:
 
-- October has slightly fewer flight cancellations than expected when compared to the rest of the year
-- If a flight is cancelled, it is most likely due to weather
-- Keep an eye out for severe storms, tornadoes, hurricanes, or early snows when traveling in October to anticipate cancellations
+- October has slightly fewer flight cancellations than expected when compared to the rest of the year.
+- If a flight is cancelled, it is most likely due to weather.
+- Keep an eye out for severe storms, tornadoes, hurricanes, or early snows when traveling in October to anticipate cancellations.
+
+## Conclusion
+Whether for business or pleasure, air travel in October can be pleasant and stress-free! If travelers have flexibility in their schedule, Saturdays will be the least busy in the airports. By contrast, Thursdays will typically be the most busy. If travelers want an especially laid-back trip, they might consider traveling during the last week of the month, or on Halloween itself.
+
+If travelers are prioritizing flights with minimal delays, they may want to consider Southwest Airlines, which performed very well in October 2024, with a maximum average departure delay of only 20.19 minutes. Republic Airline, the now-liquidated Spirit Air Lines, Alaska Airlines, Hawaiian Airlines, and United Air LInes also had average departure delays under 35 minutes.
+
+Most travelers will not have to worry about canceled flights in October. In October 2024, only 1.021% of flights were canceled, which is lower than the yearly average of 1.41%. However, weather is the most common reason for canceled flights in October, so travelers should keep an eye on severe storms, tornadoes, hurricanes, and early snow in the weeks before their flight.
+
